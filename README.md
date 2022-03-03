@@ -10,3 +10,5 @@
 - npm run start-dev -> untuk menjalankan program dalam mode developer
 - npm run start -> untuk menjalankan program
 - npm run start-test -> untuk menjalankan unit testing
+
+catatan : sebelum menjalankan program ubah file `.env.example` menjadi `.env` dan ubah isinya sesuai dengan configurasi anda 
