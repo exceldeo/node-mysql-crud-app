@@ -5,6 +5,7 @@
 2. npm install nodemon -g
 3. npm install cypress --save-dev
 4. npm install dotenv --save
+5. npm install --save-dev cypress-file-upload
 
 # script menjalankan program
 - npm run start-dev -> untuk menjalankan program dalam mode developer
