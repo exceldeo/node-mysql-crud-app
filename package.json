@@ -22,6 +22,7 @@
         "req-flash": "0.0.3"
     },
     "devDependencies": {
-        "cypress": "^9.5.1"
+        "cypress": "^9.5.1",
+        "cypress-file-upload": "^5.0.8"
     }
 }

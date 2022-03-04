@@ -25,7 +25,7 @@
                             <td><%= player.number %></td>
                             <td>@<%= player.user_name %></td>
                             <td>
-                                <a href="player/edit/<%= player.id %>" target="_blank" rel="noopener" class="btn btn-sm btn-success">Edit</a>
+                                <a href="player/edit/<%= player.id %>"  rel="noopener" class="btn btn-sm btn-success">Edit</a>
                                 <a href="player/delete/<%= player.id %>" class="btn btn-sm btn-danger">Delete</a>
                             </td>
                         </tr>
@@ -33,7 +33,7 @@
                 </tbody>
             </table>
         <% } else { %>
-            <p class="text-center">No players found. Go <a href="/player/add" >here</a> to add players.</p>
+            <p class="text-center">No players found. Go <a href="/player/add" id="btnAddPlayer">here</a> to add players.</p>
         <% } %>
     </div>
 </div>
