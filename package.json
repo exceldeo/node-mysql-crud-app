@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "node-mqsql-crud-app",
   "version": "1.0.0",
   "description": "",
@@ -25,4 +26,33 @@
   "devDependencies": {
     "cypress": "^9.5.1"
   }
+=======
+    "name": "node-mqsql-crud-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start-dev": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server",
+        "start-test": "cypress open"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.2",
+        "dotenv": "^16.0.0",
+        "ejs": "^2.7.4",
+        "express": "^4.17.3",
+        "express-fileupload": "^0.4.0",
+        "mysql": "^2.18.1",
+        "nodemon": "^2.0.15",
+        "req-flash": "^0.0.3"
+    },
+    "devDependencies": {
+        "cypress": "^9.5.1",
+        "cypress-file-upload": "^5.0.8"
+    }
+>>>>>>> 6c82196c6675e6b41c371c8ea4f7f47063033d50
 }
