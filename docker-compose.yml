@@ -1,0 +1,28 @@
+version : "3.7"
+
+services:
+  mysql:
+    image: "mysql:latest"
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    
+  apps:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=socka
+      - NODE_ENV=development
+      - DB_HOST=localhost
+
+volumes:
+  mysql_db: {}
