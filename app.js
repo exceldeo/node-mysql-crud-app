@@ -13,25 +13,25 @@ const homeRoutes = require("./routes/index.routes");
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-<<<<<<< HEAD
+console.log("DATA DATABASE");
+console.log(process.env.DB_HOST);
+console.log(process.env.DB_USERNAME);
+console.log(process.env.DB_PASSWORD);
+console.log(process.env.DB_DATABASE);
+console.log(process.env.DB_PORT);
+console.log(process.env.NODE_PORT);
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-=======
-const db = mysql.createConnection ({
-    host: process.env.DB_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_ROOT_PASSWORD,
-    database: process.env.MYSQL_DATABASE
->>>>>>> 6c82196c6675e6b41c371c8ea4f7f47063033d50
 });
 
 // connect to database
 db.connect((err) => {
   if (err) {
-    throw err;
+    throw err;;
   }
   console.log("Connected to database");
 });

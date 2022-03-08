@@ -1,65 +1,35 @@
-<<<<<<< HEAD
 version: "3.8"
 
-networks:
-  app-tier:
-    driver: bridge
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_DATABASE
     ports:
-      - 8000:8000
+      - $DB_PORT:$DB_PORT
     volumes:
-      - .:/app
-      - "/app/node_modules"
+      - db:/var/lib/mysql
+      - ./create_db.sql:/docker-entrypoint-initdb.d/create_dbdoc.sql
+
+  app:
     depends_on:
-      - mysql_server
-    networks:
-      - app-tier
-
-  mysql_server:
-    image: mysql:latest
-    ports:
-      - "3306:3306"
-    networks:
-      - app-tier
-    environment:
-      MYSQL_DATABASE: socka
-      MYSQL_ALLOW_EMPTY_PASSWORD: ok
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_HOST: "%"
-=======
-version : "3.7"
-
-services:
-  mysql:
-    image: "mysql:latest"
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-    
-  apps:
+      - mysqldb
     build: .
     restart: always
+    env_file: ./.env
     ports:
-      - 3000:3000
-    depends_on:
-      - mysql
-    links:
-      - mysql
+      - $PORT:$PORT
     environment:
-      - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=socka
-      - NODE_ENV=development
-      - DB_HOST=localhost
+      - DB_HOST=mysqldb
+      - DB_USER=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_DATABASE
+      - DB_PORT=$DB_PORT
+    stdin_open: true
+    tty: true
 
 volumes:
-  mysql_db: {}
->>>>>>> 6c82196c6675e6b41c371c8ea4f7f47063033d50
+  db:
