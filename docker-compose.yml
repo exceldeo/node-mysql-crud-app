@@ -13,6 +13,8 @@ services:
     volumes:
       - db:/var/lib/mysql
       - ./create_db.sql:/docker-entrypoint-initdb.d/create_dbdoc.sql
+    networks:
+      - app-network
 
   app:
     depends_on:
@@ -23,6 +25,7 @@ services:
     ports:
       - $PORT:$PORT
     environment:
+      - WAIT_FOR_DB=true
       - DB_HOST=mysqldb
       - DB_USER=$DB_USERNAME
       - DB_PASSWORD=$DB_PASSWORD
@@ -30,6 +33,22 @@ services:
       - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
+    networks:
+      - app-network
 
+  nginx:
+    build:
+      context: ./nginx
+    hostname: nginx
+    ports:
+        - "80:80" 
+    depends_on:
+        - app
+    networks:
+        - app-network
+        
 volumes:
   db:
+networks:
+  app-network:
+    driver: bridge
