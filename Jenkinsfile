@@ -5,7 +5,7 @@ pipeline {
 
         stage('Installing dependencies') {
             steps {
-                bash 'npm install'	 
+                git 'npm install'	 
             }	 
         }
         // stage('Docker Build and Tag') {
