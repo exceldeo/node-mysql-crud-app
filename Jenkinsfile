@@ -19,8 +19,8 @@ pipeline {
         
         stage('Docker Build and Tag') {
            steps {
-                sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:latest'
-                sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
+                bat 'docker tag nginxtest exceldeo/node-mysql-crud-app:latest'
+                bat 'docker tag nginxtest exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
                
           }
         }
@@ -29,8 +29,8 @@ pipeline {
           
             steps {
                 withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-                sh  'docker push exceldeo/node-mysql-crud-app:latest'
-                sh  'docker push exceldeo/node-mysql-crud-app:$BUILD_NUMBER' 
+                bat  'docker push exceldeo/node-mysql-crud-app:latest'
+                bat  'docker push exceldeo/node-mysql-crud-app:$BUILD_NUMBER' 
             }
                   
           }
