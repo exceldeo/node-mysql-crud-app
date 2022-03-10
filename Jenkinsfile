@@ -4,7 +4,7 @@ pipeline {
     stages {
 
         stage('Installing dependencies') {
-            nodejs(nodeJSInstallationName: 'node-mysql-crud-app') {
+            steps {
                 sh 'npm install'	 
             }	 
         }
