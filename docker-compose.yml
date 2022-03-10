@@ -1,28 +1,40 @@
 version : "3.7"
 
 services:
-  mysql:
+  mysql_application:
+    container_name: mysql_application
     image: "mysql:latest"
     ports:
       - 3306:3306
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: socka
+      MYSQL_ALLOW_EMPTY_PASSWORD: null
+      MYSQL_ROOT_HOST: '%'
+    networks:
+      - apps_network
+
+    volumes: 
+      - mysql_db:/data/db
     
   apps:
     build: .
     restart: always
     ports:
-      - 3000:3000
+      - 8000:8000
     depends_on:
-      - mysql
-    links:
-      - mysql
+      - mysql_application
     environment:
-      - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=socka
-      - NODE_ENV=development
-      - DB_HOST=localhost
+      - MYSQL_USER=root
+      - MYSQL_HOST=mysql_application
+    networks:
+      - apps_network
+
+networks:
+  apps_network:
+    name: apps_network
 
 volumes:
   mysql_db: {}
