@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 
 services:
   mysqldb:
@@ -26,7 +26,7 @@ services:
     restart: always
     env_file: ./.env
     ports:
-      - $PORT:$PORT
+      - "8000:8000"
     environment:
       - WAIT_FOR_DB=true
       - DB_HOST=mysqldb
