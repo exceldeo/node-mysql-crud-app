@@ -1,40 +1,59 @@
-version : "3.7"
+version: "3.8"
 
 services:
-  mysql_application:
-    container_name: mysql_application
-    image: "mysql:latest"
-    ports:
-      - 3306:3306
+  mysqldb:
+    image: mysql:5.7
+    env_file: ./.env
+    container_name: db
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: socka
-      MYSQL_ALLOW_EMPTY_PASSWORD: null
-      MYSQL_ROOT_HOST: '%'
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER=$DB_USERNAME
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - db:/var/lib/mysql
+      - ./create_db.sql:/docker-entrypoint-initdb.d/create_dbdoc.sql
     networks:
-      - apps_network
+      - node-network
 
-    volumes: 
-      - mysql_db:/data/db
-    
-  apps:
+  app:
+    depends_on:
+      - mysqldb
+    container_name: app
     build: .
     restart: always
+    env_file: ./.env
     ports:
-      - 8000:8000
-    depends_on:
-      - mysql_application
+      - $PORT:$PORT
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=socka
-      - MYSQL_USER=root
-      - MYSQL_HOST=mysql_application
+      - WAIT_FOR_DB=true
+      - DB_HOST=mysqldb
+      - DB_USER=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_DATABASE
+      - DB_PORT=$DB_PORT
+    stdin_open: true
+    tty: true
     networks:
-      - apps_network
+      - node-network
 
-networks:
-  apps_network:
-    name: apps_network
-
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    build: 
+      context: ./nginx-node
+    networks:
+      - node-network
+    depends_on: 
+      - app
+    ports:
+      - 80:80
+      
 volumes:
-  mysql_db: {}
+  db:
+networks: 
+  node-network:
+    driver: bridge
