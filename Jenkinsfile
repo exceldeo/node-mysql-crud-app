@@ -1,24 +1,33 @@
 pipeline {
     agent any
- stages {
-    stage('Docker Build and Tag') {
-           steps {
-                sh 'docker-compose up' 
-                sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:latest'
-                sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
-               
-          }
+    stages {
+        stage('Installing dependencies') {
+            nodejs(nodeJSInstallationName: 'nodejs') {
+                sh 'npm install'	 
+            }	 
+        }
+
+        stage('Run application') {
+            nodejs(nodeJSInstallationName: 'nodejs') {
+                sh 'npm run start'	 
+            }	 
+        }
+
+        stage('Docker Build & Push') {
+            docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+                def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+            }
         }
      
-    stage('Publish image to Docker Hub') {
+        // stage('Publish image to Docker Hub') {
           
-        steps {
-            withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-            sh  'docker push exceldeo/node-mysql-crud-app:latest'
-            sh  'docker push exceldeo/node-mysql-crud-app:$BUILD_NUMBER' 
-        }
+        //     steps {
+        //         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
+        //         sh  'docker push exceldeo/node-mysql-crud-app:latest'
+        //         sh  'docker push exceldeo/node-mysql-crud-app:$BUILD_NUMBER' 
+        //     }
                   
-          }
-        }
+        //   }
+        // }
     }
 }
