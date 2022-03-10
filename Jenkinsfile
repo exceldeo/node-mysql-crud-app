@@ -11,17 +11,26 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/shazforiot/nodeapp_test.git'
+        git 'https://github.com/exceldeo/node-mysql-crud-app.git'
       }
     }
 
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build dockerimagename
+          dockerImage = docker.build node-mysql-crud-app-master_app
         }
       }
     }
+
+    // untuk testing
+    // stage('Build image') {
+    //   steps{
+    //     script {
+    //       dockerImage = docker.build node-mysql-crud-app-master_app
+    //     }
+    //   }
+    // }
 
     stage('Pushing Image') {
       environment {
