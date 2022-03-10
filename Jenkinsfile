@@ -8,13 +8,20 @@ pipeline {
                 bat 'npm install'	 
             }	 
         }
+
+
         stage('Docker Build') {
            steps {
-                bat 'docker-compose up' 
+                bat 'docker build -t exceldeo/node-mysql-crud-app .' 
                
           }
         }
      
+        stage('Run application') {
+            steps {
+                bat 'npm run start'	 
+            }	 
+        }
         // stage('Publish image to Docker Hub') {
           
         //     steps {
