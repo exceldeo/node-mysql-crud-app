@@ -1,4 +1,11 @@
 pipeline {
+    stages {
+      stage('Build') {
+          steps {
+              sh 'npm install'
+          }
+      }
+      
     agent {
         docker {
             image 'node-mysql-crud-app_apps'
