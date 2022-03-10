@@ -1,8 +1,10 @@
 pipeline {
     agent any
+    
     stages {
+
         stage('Installing dependencies') {
-            nodejs(nodeJSInstallationName: 'nodejs') {
+            nodejs(nodeJSInstallationName: 'node-mysql-crud-app') {
                 sh 'npm install'	 
             }	 
         }
