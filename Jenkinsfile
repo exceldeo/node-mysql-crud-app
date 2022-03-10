@@ -1,56 +1,22 @@
-pipeline {
+node {
+   def commit_id
+   stage('Checkout Git') {
+     checkout scm
+     sh "git rev-parse --short HEAD > .git/commit-id"                        
+     commit_id = readFile('.git/commit-id').trim()
+   }
 
-  environment {
-    dockerimagename = "thetips4you/nodeapp"
-    dockerImage = ""
-  }
+   stage('Installing dependencies') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'npm install'	 
+     }	 
+   }
 
-  agent any
-
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/exceldeo/node-mysql-crud-app.git'
-      }
-    }
-
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build node-mysql-crud-app-master_app
-        }
-      }
-    }
-
-    // untuk testing
-    // stage('Build image') {
-    //   steps{
-    //     script {
-    //       dockerImage = docker.build node-mysql-crud-app-master_app
-    //     }
-    //   }
-    // }
-
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhublogin'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
-        }
-      }
-    }
-
-    stage('Deploying App to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "kubernetes")
-        }
-      }
-    }
-  }
+   stage('Docker Build & Push') {
+     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+		def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+     }
+   }
+   
+   
 }
