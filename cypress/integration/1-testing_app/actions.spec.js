@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-const baseURL = 'http://localhost:8000/'
+const baseURL = 'http://localhost:9000/'
 
 context('Actions', () => {
   beforeEach(() => {
