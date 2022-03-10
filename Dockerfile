@@ -17,8 +17,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
-<<<<<<< HEAD
 CMD [ "npm", "run","start" ]
-=======
-CMD [ "npm", "run","start" ]
->>>>>>> a59ff00e681b596c9f35d7c0ac3a150a9e9b36bb
