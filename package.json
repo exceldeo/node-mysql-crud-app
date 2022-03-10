@@ -7,7 +7,9 @@
         "start-dev": "nodemon app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server",
-        "start-test": "cypress open"
+        "start-test": "cypress open",
+        "build": "docker-compose build",
+        "up": "docker-compose up --abort-on-container-exit --exit-code-from e2e"
     },
     "keywords": [],
     "author": "",
