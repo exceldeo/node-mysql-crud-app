@@ -2,7 +2,7 @@ pipeline {
       
     agent {
         docker {
-            image 'node-mysql-crud-app_apps'
+            image 'node-mysql-crud-app_app'
             args '-p 3000:3000'
         }
     }
