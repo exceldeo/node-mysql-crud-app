@@ -1,7 +1,18 @@
 pipeline {
     agent any
+
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerHub')
+	}
     
     stages {
+
+        stage('gitclone') {
+
+			steps {
+				git 'https://github.com/exceldeo/node-mysql-crud-app.git'
+			}
+		}
 
         stage('Installing dependencies') {
             steps {
@@ -17,23 +28,25 @@ pipeline {
           }
         }
         
-        stage('Docker Build and Tag') {
-           steps {
-                bat 'docker tag node-mysql-crud-app exceldeo/node-mysql-crud-app:latest'
-                bat 'docker tag node-mysql-crud-app exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
-               
-          }
-        }
-     
-        stage('Publish image to Docker Hub') {
-          
-            steps {
-                withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-                bat  'docker push exceldeo/node-mysql-crud-app:latest'
-                bat  'docker push exceldeo/node-mysql-crud-app:$BUILD_NUMBER' 
-            }
-                  
-          }
-        }
+		stage('Login') {
+
+			steps {
+				bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				bat 'docker push exceldeo/node-mysql-crud-app:latest'
+			}
+		}    
     }
+    
+    post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
 }
