@@ -3,26 +3,32 @@ version: "3.8"
 services:
   mysqldb:
     image: mysql:5.7
-    restart: unless-stopped
     env_file: ./.env
+    container_name: db
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
       - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER=$DB_USERNAME
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
       - db:/var/lib/mysql
       - ./create_db.sql:/docker-entrypoint-initdb.d/create_dbdoc.sql
+    networks:
+      - node-network
 
   app:
     depends_on:
       - mysqldb
+    container_name: app
     build: .
     restart: always
     env_file: ./.env
     ports:
       - $PORT:$PORT
     environment:
+      - WAIT_FOR_DB=true
       - DB_HOST=mysqldb
       - DB_USER=$DB_USERNAME
       - DB_PASSWORD=$DB_PASSWORD
@@ -30,6 +36,24 @@ services:
       - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
+    networks:
+      - node-network
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    build: 
+      context: ./nginx-node
+    networks:
+      - node-network
+    depends_on: 
+      - app
+    ports:
+      - 80:80
+      
 volumes:
   db:
+networks: 
+  node-network:
+    driver: bridge
