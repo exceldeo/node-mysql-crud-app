@@ -1,6 +1,3 @@
-FROM nginx
-COPY ./default.conf /etc/nginx/conf.d/
-
 FROM node:16.13.2
 
 # Create app directory

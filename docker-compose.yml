@@ -3,22 +3,25 @@ version: "3.8"
 services:
   mysqldb:
     image: mysql:5.7
-    restart: unless-stopped
     env_file: ./.env
+    container_name: db
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
       - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_USER=$DB_USERNAME
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
       - db:/var/lib/mysql
       - ./create_db.sql:/docker-entrypoint-initdb.d/create_dbdoc.sql
     networks:
-      - app-network
+      - node-network
 
   app:
     depends_on:
       - mysqldb
+    container_name: app
     build: .
     restart: always
     env_file: ./.env
@@ -34,21 +37,23 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - app-network
+      - node-network
 
   nginx:
-    build:
-      context: ./nginx
-    hostname: nginx
-    ports:
-        - "80:80" 
-    depends_on:
-        - app
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    build: 
+      context: ./nginx-node
     networks:
-        - app-network
-        
+      - node-network
+    depends_on: 
+      - app
+    ports:
+      - 80:80
+      
 volumes:
   db:
-networks:
-  app-network:
+networks: 
+  node-network:
     driver: bridge
