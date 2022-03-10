@@ -1,10 +1,4 @@
 pipeline {
-    stages {
-      stage('Build') {
-          steps {
-              sh 'npm install'
-          }
-      }
       
     agent {
         docker {
@@ -21,6 +15,5 @@ pipeline {
                 sh 'npm install'
             }
         }
-    }
     }
 }
