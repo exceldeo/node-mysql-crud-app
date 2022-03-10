@@ -40,18 +40,32 @@ services:
       - node-network
 
   nginx:
+    restart: always
     image: nginx:alpine
     container_name: nginx
-    restart: unless-stopped
-    build: 
-      context: ./nginx-node
+    volumes:
+        - "./nginx-node/default.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+        - "9000:80"
+    links:
+      - "app:app"
     networks:
       - node-network
-    depends_on: 
-      - app
-    ports:
-      - 80:80
-      
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: nginx
+  #   restart: unless-stopped
+  #   build: 
+  #     context: ./nginx-node
+  #   networks:
+  #     - node-network
+  #   # depends_on: 
+  #   #   - app
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./nginx-node:/etc/nginx/conf.d
+    
 volumes:
   db:
 networks: 
