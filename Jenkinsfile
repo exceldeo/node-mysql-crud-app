@@ -8,14 +8,12 @@ pipeline {
                 bat 'npm install'	 
             }	 
         }
-        // stage('Docker Build and Tag') {
-        //    steps {
-        //         sh 'docker-compose up' 
-        //         sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:latest'
-        //         sh 'docker tag nginxtest exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
+        stage('Docker Build') {
+           steps {
+                bat 'docker build' 
                
-        //   }
-        // }
+          }
+        }
      
         // stage('Publish image to Docker Hub') {
           
