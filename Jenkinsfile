@@ -19,8 +19,8 @@ pipeline {
         
         stage('Docker Build and Tag') {
            steps {
-                bat 'docker tag nginxtest exceldeo/node-mysql-crud-app:latest'
-                bat 'docker tag nginxtest exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
+                bat 'docker tag node-mysql-crud-app exceldeo/node-mysql-crud-app:latest'
+                bat 'docker tag node-mysql-crud-app exceldeo/node-mysql-crud-app:$BUILD_NUMBER'
                
           }
         }
