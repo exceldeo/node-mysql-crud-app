@@ -44,12 +44,12 @@ pipeline {
 			}
 		}   
 
-		stage('Docker Run') {
+		// stage('Docker Run') {
 
-			steps {
-				bat 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
-			}
-		}   
+		// 	steps {
+		// 		bat 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
+		// 	}
+		// }   
     }
     
     post {
