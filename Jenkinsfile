@@ -37,7 +37,7 @@ pipeline {
             steps { 
                 script { 
                     docker.withRegistry( 'https://index.docker.io/v2/', registryCredential ) { 
-                        dockerImage.push() 
+                        def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
                     }
                 } 
             }
