@@ -30,24 +30,24 @@ pipeline {
 			}
 		}
 
-		stage('Docker Push') {
+		// stage('Docker Push') {
 
-			steps {
-				bat 'docker push exceldeo/node-mysql-crud-app:latest'
-			}
-		}   
+		// 	steps {
+		// 		bat 'docker push exceldeo/node-mysql-crud-app:latest'
+		// 	}
+		// }   
 
-		stage('Docker Pull') {
+		// stage('Docker Pull') {
 
-			steps {
-				bat 'docker pull exceldeo/node-mysql-crud-app:latest'
-			}
-		}   
+		// 	steps {
+		// 		bat 'docker pull exceldeo/node-mysql-crud-app:latest'
+		// 	}
+		// }   
 
 		stage('Docker Run') {
 
 			steps {
-				sh 'sudo docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
+				sh 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
 			}
 		}   
     }
