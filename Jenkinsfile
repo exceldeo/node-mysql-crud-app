@@ -47,7 +47,7 @@ pipeline {
 		stage('Docker Run') {
 
 			steps {
-				sh 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
+				bat 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app-master_app .' 
 			}
 		}   
     }
