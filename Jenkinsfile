@@ -1,4 +1,4 @@
-node {
+pipeline {
     agent any
     
     stages {
@@ -23,11 +23,11 @@ node {
           }
         }
 
-		stage('Docker Build & Push') {
-			docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
-				def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+		stage('Login') {
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 			}
-		}
+   		}
         
 		// stage('Login') {
 
