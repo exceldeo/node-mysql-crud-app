@@ -1,4 +1,4 @@
-pipeline {
+node {
     agent any
     
     stages {
@@ -24,12 +24,10 @@ pipeline {
         }
 
 		stage('Docker Build & Push') {
-			steps {
-				docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
-					def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
-				}
+			docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
+				def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
 			}
-   		}
+		}
         
 		// stage('Login') {
 
