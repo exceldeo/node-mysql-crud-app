@@ -3,7 +3,7 @@ pipeline {
 
     environment { 
         registry = "exceldeo/node-mysql-crud-app" 
-        registryCredential = 'dockerHub' 
+        registryCredential = 'exceldeo-dockerhub' 
         dockerImage = 'exceldeo/node-mysql-crud-app' 
     }
     stages {
