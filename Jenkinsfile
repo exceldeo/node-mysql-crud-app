@@ -44,11 +44,10 @@ pipeline {
 			}
 		}   
 
-		stage('Docker Build and Run') {
+		stage('Docker Run') {
 
 			steps {
-				bat 'docker build -t exceldeo/node-mysql-crud-app .' 
-				bat 'docker run -dp 8000:8000 node-mysql-crud-app-master .' 
+				bat 'docker run -p 8000:8000 exceldeo/node-mysql-crud-app .' 
 			}
 		}   
     }
