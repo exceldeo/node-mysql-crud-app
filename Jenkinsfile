@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment { 
-        registry = "exceldeo/node-mysql-crud-app" 
-        registryCredential = 'exceldeo-dockerhub' 
-        dockerImage = 'exceldeo/node-mysql-crud-app-master_app' 
+		DOCKERHUB_CREDENTIALS = "exceldeo-dockerhub"
     }
     stages {
 
@@ -27,35 +25,35 @@ pipeline {
                 bat 'docker build -t exceldeo/node-mysql-crud-app .' 
           }
         }
-
-		// stage('Docker Build & Push') {
-		// 	docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
-		// 		def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
-		// 	}
-   		// }
-		// stage('Deploy our image') { 
-        //     steps { 
-        //         script { 
-        //             docker.withRegistry( 'https://index.docker.io/v2/', registryCredential ) { 
-        //                 def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
-        //             }
-        //         } 
-        //     }
-        // } 
         
-		stage('Login') {
+		stage('Docker Login') {
 
 			steps {
-				bat 'docker login -u "exceldeo" -p "c03207c0-30c5-4078-a1ca-4eef1631eedd" docker.io'
+				bat 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW docker.io'
 			}
 		}
 
-		stage('Push') {
+		stage('Docker Push') {
 
 			steps {
 				bat 'docker push exceldeo/node-mysql-crud-app:latest'
 			}
-		}    
+		}   
+
+		stage('Docker Pull') {
+
+			steps {
+				bat 'docker pull exceldeo/node-mysql-crud-app:latest'
+			}
+		}   
+
+		stage('Docker Build and Run') {
+
+			steps {
+				bat 'docker build -t exceldeo/node-mysql-crud-app .' 
+				bat 'docker run -dp 8000:8000 exceldeo/node-mysql-crud-app .' 
+			}
+		}   
     }
     
     post {
