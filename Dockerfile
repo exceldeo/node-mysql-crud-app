@@ -15,6 +15,7 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+RUN ["chmod", "+x", "/usr/src/app/docker-entrypoint.sh"]
 
 EXPOSE 8000
 CMD [ "npm", "run","start" ]
