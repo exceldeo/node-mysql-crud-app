@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerHubAji')
+		DOCKERHUB_CREDENTIALS=credentials('dockerHub2')
 	}
     
     stages {
@@ -38,7 +38,7 @@ pipeline {
 		stage('Push') {
 
 			steps {
-				bat 'docker push amzar123/nodejs-app-crud:latest'
+				bat 'docker push exceldeo/node-mysql-crud-app:latest'
 			}
 		}    
     }
