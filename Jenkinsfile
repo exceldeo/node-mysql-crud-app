@@ -23,18 +23,18 @@ pipeline {
           }
         }
 
-		stage('Login') {
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-   		}
-        
-		// stage('Login') {
-
-		// 	steps {
-		// 		bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		// stage('Docker Build & Push') {
+		// 	docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
+		// 		def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
 		// 	}
-		// }
+   		// }
+        
+		stage('Login') {
+
+			steps {
+				bat 'echo bfac99c7-b9874427-abc1-89a4463fafe7 | docker login -u exceldeo --password-stdin'
+			}
+		}
 
 		// stage('Push') {
 
