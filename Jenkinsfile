@@ -1,9 +1,5 @@
 pipeline {
     agent any
-
-    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerHub2')
-	}
     
     stages {
 
@@ -24,12 +20,11 @@ pipeline {
         stage('Docker Build') {
            steps {
                 bat 'docker build -t exceldeo/node-mysql-crud-app .' 
-               
           }
         }
 
 		stage('Docker Build & Push') {
-			docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+			docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
 				def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
 			}
    		}
