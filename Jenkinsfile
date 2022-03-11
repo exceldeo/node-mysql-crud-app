@@ -33,29 +33,29 @@ pipeline {
 		// 		def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
 		// 	}
    		// }
-		stage('Deploy our image') { 
-            steps { 
-                script { 
-                    docker.withRegistry( 'https://index.docker.io/v2/', registryCredential ) { 
-                        def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
-                    }
-                } 
-            }
-        } 
+		// stage('Deploy our image') { 
+        //     steps { 
+        //         script { 
+        //             docker.withRegistry( 'https://index.docker.io/v2/', registryCredential ) { 
+        //                 def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+        //             }
+        //         } 
+        //     }
+        // } 
         
-		// stage('Login') {
+		stage('Login') {
 
-		// 	steps {
-		// 		bat 'echo bfac99c7-b9874427-abc1-89a4463fafe7 | docker login -u exceldeo --password-stdin'
-		// 	}
-		// }
+			steps {
+				bat 'docker login -u "exceldeo" -p "c03207c0-30c5-4078-a1ca-4eef1631eedd" docker.io'
+			}
+		}
 
-		// stage('Push') {
+		stage('Push') {
 
-		// 	steps {
-		// 		bat 'docker push exceldeo/node-mysql-crud-app:latest'
-		// 	}
-		// }    
+			steps {
+				bat 'docker push exceldeo/node-mysql-crud-app:latest'
+			}
+		}    
     }
     
     post {
