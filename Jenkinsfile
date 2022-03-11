@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    environment { 
-		DOCKERHUB_CREDENTIALS = "exceldeo-dockerhub"
-    }
     stages {
 
         stage('gitclone') {
