@@ -24,8 +24,10 @@ pipeline {
         }
 
 		stage('Docker Build & Push') {
-			docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
-				def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+			steps {
+				docker.withRegistry('https://index.docker.io/v2/', 'dockerHub2') {
+					def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
+				}
 			}
    		}
         
