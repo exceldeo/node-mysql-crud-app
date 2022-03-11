@@ -29,7 +29,7 @@ pipeline {
 		stage('Docker Login') {
 
 			steps {
-				bat 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW docker.io'
+				bat 'docker login -u "exceldeo" -p "c03207c0-30c5-4078-a1ca-4eef1631eedd" docker.io'
 			}
 		}
 
