@@ -1,6 +1,11 @@
 pipeline {
     agent any
-    
+
+    environment { 
+        registry = "exceldeo/node-mysql-crud-app" 
+        registryCredential = 'dockerHub' 
+        dockerImage = 'exceldeo/node-mysql-crud-app' 
+    }
     stages {
 
         stage('gitclone') {
@@ -28,13 +33,22 @@ pipeline {
 		// 		def app = docker.build("exceldeo/node-mysql-crud-app", '.').push()
 		// 	}
    		// }
+		stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
+            }
+        } 
         
-		stage('Login') {
+		// stage('Login') {
 
-			steps {
-				bat 'echo bfac99c7-b9874427-abc1-89a4463fafe7 | docker login -u exceldeo --password-stdin'
-			}
-		}
+		// 	steps {
+		// 		bat 'echo bfac99c7-b9874427-abc1-89a4463fafe7 | docker login -u exceldeo --password-stdin'
+		// 	}
+		// }
 
 		// stage('Push') {
 
